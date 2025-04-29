@@ -2,9 +2,9 @@
 
 internal class Log
 {
-    public Log(DateTime dateOfEntry, int quantity) { DateOfEntry = dateOfEntry; Quantity = quantity; }
+    public Log(DateOnly dateOfEntry, int quantity) { DateOfEntry = dateOfEntry; Quantity = quantity; }
    
-    public required DateTime DateOfEntry { get; init; }
+    public DateOnly DateOfEntry { get; init; }
 
-    public required int Quantity { get; init; }
+    public int Quantity { get; init; }
 }

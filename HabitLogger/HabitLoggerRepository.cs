@@ -4,10 +4,13 @@ internal class HabitLoggerRepository
 {
     private List<Log> logs = new List<Log>();
 
-    internal void Delete(DateTime dateTime)
+    internal void Delete(DateOnly date)
     {
-        Log searchLog = FindLogBasedOnEntryDate(dateTime);
-
+        Log? searchLog = FindLogBasedOnEntryDate(date);
+        if (searchLog == null)
+        {
+            throw new InvalidDataException();
+        }
         logs.Remove(searchLog);
     }
 
@@ -15,23 +18,24 @@ internal class HabitLoggerRepository
 
     internal void Insert(Log log)
     {
-        logs.Add(log);
-    }
-
-    internal void Update(DateTime dateTime, Log log)
-    {
-        Log searchLog = FindLogBasedOnEntryDate(dateTime);
-
-        logs.Remove(searchLog);
-        logs.Add(log);
-    }
-    private Log FindLogBasedOnEntryDate(DateTime dateTime)
-    {
-        Log? searchLog = logs.Find(e => e.DateOfEntry.Equals(dateTime));
-        if (searchLog == null)
+        Log? searchLog = FindLogBasedOnEntryDate(log.DateOfEntry);
+        if (searchLog != null)
         {
             throw new InvalidOperationException();
         }
-        return searchLog;
+        logs.Add(log);
     }
+
+    internal void Update(Log log)
+    {
+        Log? searchLog = FindLogBasedOnEntryDate(log.DateOfEntry);
+        if (searchLog == null)
+        {
+            throw new InvalidDataException();
+        }
+        logs.Remove(searchLog);
+        logs.Add(log);
+    }
+
+    private Log? FindLogBasedOnEntryDate(DateOnly date) => logs.Find(e => e.DateOfEntry.Equals(date));
 }
