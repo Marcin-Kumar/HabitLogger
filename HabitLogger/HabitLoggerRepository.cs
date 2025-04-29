@@ -1,37 +1,37 @@
 ﻿namespace HabitLogger;
 
-internal class HabitLoggerRepository
+internal class HabitLoggerRepository : IHabitLoggerRepository
 {
     private List<Log> logs = new List<Log>();
 
-    internal void Delete(DateOnly date)
+    public void DeleteLog(DateOnly date)
     {
         Log? searchLog = FindLogBasedOnEntryDate(date);
         if (searchLog == null)
         {
-            throw new InvalidDataException();
+            throw new InvalidDataException($"No data could found for the entered date - {date.ToString(HabitLoggerConstants.DateFormat)}, unable to delete data");
         }
         logs.Remove(searchLog);
     }
 
-    internal List<Log> FindAllLogs() => logs;
+    public List<Log> FindAllLogs() => logs;
 
-    internal void Insert(Log log)
+    public void InsertLog(Log log)
     {
         Log? searchLog = FindLogBasedOnEntryDate(log.DateOfEntry);
         if (searchLog != null)
         {
-            throw new InvalidOperationException();
+            throw new InvalidOperationException("Data already exists for date entered");
         }
         logs.Add(log);
     }
 
-    internal void Update(Log log)
+    public void UpdateLog(Log log)
     {
         Log? searchLog = FindLogBasedOnEntryDate(log.DateOfEntry);
         if (searchLog == null)
         {
-            throw new InvalidDataException();
+            throw new InvalidDataException($"No data could found for the entered date - {log.DateOfEntry.ToString(HabitLoggerConstants.DateFormat)}, unable to update data");
         }
         logs.Remove(searchLog);
         logs.Add(log);
