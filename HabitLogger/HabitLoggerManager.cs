@@ -5,14 +5,14 @@ namespace HabitLogger;
 internal class HabitLoggerManager
 {
     private static HabitLoggerManager? s_instance;
-    private HabitLoggerRepository _repository;
+    private IHabitLoggerRepository _repository;
 
-    private HabitLoggerManager(HabitLoggerRepository repository)
+    private HabitLoggerManager(IHabitLoggerRepository repository)
     {
         _repository = repository;
     }
 
-    internal static HabitLoggerManager GetHabitLoggerManager(HabitLoggerRepository repository)
+    internal static HabitLoggerManager GetHabitLoggerManager(IHabitLoggerRepository repository)
     {
         if (s_instance == null)
         {

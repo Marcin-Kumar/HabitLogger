@@ -1,6 +1,6 @@
 ﻿namespace HabitLogger;
 
-internal class HabitLoggerRepository : IHabitLoggerRepository
+internal class HabitLoggerInMemoryListRepository : IHabitLoggerRepository
 {
     private List<Log> logs = new List<Log>();
 
